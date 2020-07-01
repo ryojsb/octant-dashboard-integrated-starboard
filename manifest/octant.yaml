@@ -38,11 +38,10 @@ spec:
       serviceAccountName: octant-admin
       containers:
       - name: octant
-        image: harbor.pks.local/octant/gui:rev1
+        image: <registry>/octant/gui:rev1
         ports:
         - containerPort: 8900
         command: ["/usr/local/bin/octant"]
-          
 
 ---
 apiVersion: v1
