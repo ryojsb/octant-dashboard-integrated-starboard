@@ -22,21 +22,21 @@ And it need to be named as `config`.
 
 ```
 # ls
-config Dockerfile  starboard-octant-plugin  xdg-utils_1.1.2-1ubuntu2_all.deb
+Dockerfile  config  octant_0.13.1_Linux-64bit.deb  starboard-octant-plugin  xdg-utils_1.1.2-1ubuntu2_all.deb
 ```
 
 After that, build an image and push it to your registry.
 
 ```
-docker build -t <registry>/octant/gui:rev1 .
+# docker build -t <registry>/octant/gui:rev1 .
 
-docker login <registry>
+# docker login <registry>
 
-docker push <registry>/octant/gui:rev1
+# docker push <registry>/octant/gui:rev1
 ```
 
 Finary, modify an image name in the manifest and apply it
 
 ```
-kubectl apply -f manifest/octant.yaml
+# kubectl apply -f manifest/octant.yaml
 ```
