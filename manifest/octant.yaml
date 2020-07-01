@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: octant-admin
+  namespace: starboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: octant-rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: octant-admin
+  namespace: starboard
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: octant
+  namespace: starboard
+  labels:
+    app: octant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: octant
+  template:
+    metadata:
+      labels:
+        app: octant
+    spec:
+      serviceAccountName: octant-admin
+      containers:
+      - name: octant
+        image: harbor.pks.local/octant/gui:rev1
+        ports:
+        - containerPort: 8900
+        command: ["/usr/local/bin/octant"]
+          
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: octant-gui
+  namespace: starboard
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8900
+    targetPort: 8900
+    protocol: TCP
+  selector:
+    app: octant
